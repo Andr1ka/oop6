@@ -1,15 +1,5 @@
 #pragma once
 #include <iostream>
-
-
-
-
-
-
-
-
-
-
 template<typename T>
 class List {
 protected:
@@ -19,93 +9,164 @@ protected:
     protected:
         T data;
         Node* next;
-        Node* prev;
+     
     public:
         Node(T* dat) {
             this->data = *dat;
-            this->next = nullptr;
-            this->prev = nullptr;
+            this->next = nullptr;       
         }
         Node() {
-            this->next = nullptr;
-            this->prev = nullptr;
+            this->next = nullptr;          
         }
 
         ~Node{
             delete next;
-            delete prev;
         }
     };
 
-
-	size_t length;
 	Node<T>* head;
-	Node<T>* tail;
 
 public:
-    template<typename T>
-    struct Iterator {
-        Node<T>* node;
+    List() : head(nullptr) {}
 
-        Iterator(Node<T>* nod) {
-            node = nod;
+    class Iterator {
+    public:
+        Node* current;
+
+        Iterator(Node* node) : current(node) {}
+
+        T& operator*() const {
+            return current->data;
         }
-        Iterator begin() {
-            return head;
-        }
-        Iterator end() {
-            return tail;
-        }
+
         Iterator& operator++() {
-            node = node->next;
+            current = current->next;
             return *this;
         }
 
         bool operator!=(const Iterator& other) const {
-            return node != other.node;
+            return current != other.current;
         }
-        T& operator*() const {
-            return node->data;
+    };
+
+    Iterator begin() const {
+        return Iterator(head);
+    }
+
+    Iterator end() const {
+        return Iterator(nullptr);
+    }
+
+    void insert(const T& value, Iterator position) {
+        if (position.current == nullptr) {
+            Node* newNode = new Node(value);
+            newNode->next = head;
+            head = newNode;
         }
-
-        void erase(Iterator position) {
-            if (head == nullptr || position.node == nullptr) {
-                return;
-            }
-
-            if (position.node == head) {
-                head = head->next;
-                delete position.node;
-            }
-            else {
-                Node* temp = head;
-                while (temp->next != position.node) {
-                    temp = temp->next;
-                }
-
-                temp->next = position.node->next;
-                delete position.node;
-            }
+        else {
+            Node* newNode = new Node(value);
+            newNode->next = position.current->next;
+            position.current->next = newNode;
         }
+    }
 
-        void insert(const T& value, Iterator position) {
-            if (position.node == nullptr) {
+    void insert(const T& value, Node* position) {
+        if (position == nullptr) {
+            if (head == nullptr) {
                 Node* newNode = new Node(value);
                 newNode->next = head;
                 head = newNode;
             }
             else {
                 Node* newNode = new Node(value);
-                newNode->next = position.node->next;
-                position.node->next = newNode;
+                Node* temp = head;
+                while (temp->next != nullptr) {
+                    temp = temp->next;
+                }
+                temp->next = newNode;
             }
+
+        }
+        else {
+            Node* newNode = new Node(value);
+            Node* temp = head;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+
+   
+    void erase(Node* position) {
+        if (head == nullptr || position == nullptr) {
+            return;
         }
 
-        ~Iterator() {
-            delete node;
+        if (position == head) {
+            head = head->next;
+            delete position;
         }
-    };
+        else {
+            Node* temp = head;
+            while (temp->next != position) {
+                temp = temp->next;
+            }
 
+            temp->next = position->next;
+            delete position;
+        }
+    }
+
+    void merge(const List& other) {
+        Node* temp = other.head;
+        Node* mainListtemp = head;
+        while (mainListtemp->next != nullptr) {
+            mainListtemp = mainListtemp->next;
+        }
+        while (temp != nullptr) {
+            mainListtemp->next = new Node(temp->data);
+            mainListtemp = mainListtemp->next;
+            temp = temp->next;
+        }
+    }
+
+    
+    void mergeSorted(const List& other) {
+        Node* temp = other.head;
+        Node* mainListtemp = head;
+        while (mainListtemp->next != nullptr) {
+            mainListtemp = mainListtemp->next;
+        }
+        while (temp != nullptr) {
+            mainListtemp->next = new Node(temp->data);
+            mainListtemp = mainListtemp->next;
+            temp = temp->next;
+        }
+        temp = head;
+        if (head->next != nullptr) {
+            mainListtemp = head->next;
+            while (temp->next != nullptr) {
+                while (mainListtemp != nullptr)
+                {
+                    if (mainListtemp->data < temp->data) {
+                        T date = mainListtemp->data;
+                        mainListtemp->data = temp->data;
+                        temp->data = date;
+                    }
+                    mainListtemp = mainListtemp->next;
+                }
+                temp = temp->next;
+                mainListtemp = temp;
+            }
+
+        }
+        else {
+
+        }
+
+
+    }
 
     friend std::ostream& operator<<(std::ostream& os, const List<T>& list) {
         Node* temp = list.head;
