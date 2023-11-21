@@ -1,76 +1,33 @@
 #pragma once
-#include <iostream>
-template<typename T>
-class List {
-protected:
 
-    class Node
-    {
-    protected:
+#include <iostream>
+
+template <typename T>
+class List {
+private:
+    struct Node {
         T data;
         Node* next;
-     
-    public:
-        Node(T* dat) {
-            this->data = *dat;
-            this->next = nullptr;       
-        }
-        Node() {
-            this->next = nullptr;          
-        }
 
-        ~Node{
-            delete next;
-        }
+        Node(const T& value) : data(value), next(nullptr) {}
+        
     };
 
-	Node<T>* head;
+    Node* head;
 
 public:
     List() : head(nullptr) {}
 
-    class Iterator {
-    public:
-        Node* current;
-
-        Iterator(Node* node) : current(node) {}
-
-        T& operator*() const {
-            return current->data;
-        }
-
-        Iterator& operator++() {
-            current = current->next;
-            return *this;
-        }
-
-        bool operator!=(const Iterator& other) const {
-            return current != other.current;
-        }
-    };
-
-    Iterator begin() const {
-        return Iterator(head);
-    }
-
-    Iterator end() const {
-        return Iterator(nullptr);
-    }
-
-    void insert(const T& value, Iterator position) {
-        if (position.current == nullptr) {
-            Node* newNode = new Node(value);
-            newNode->next = head;
-            head = newNode;
-        }
-        else {
-            Node* newNode = new Node(value);
-            newNode->next = position.current->next;
-            position.current->next = newNode;
+    ~List() {
+        while (head != nullptr) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
         }
     }
 
-    void insert(const T& value, Node* position) {
+
+    void insert(const T& value, Node* position = nullptr) {
         if (position == nullptr) {
             if (head == nullptr) {
                 Node* newNode = new Node(value);
@@ -97,7 +54,7 @@ public:
         }
     }
 
-   
+    
     void erase(Node* position) {
         if (head == nullptr || position == nullptr) {
             return;
@@ -168,6 +125,7 @@ public:
 
     }
 
+    
     friend std::ostream& operator<<(std::ostream& os, const List<T>& list) {
         Node* temp = list.head;
         while (temp != nullptr) {
@@ -177,12 +135,74 @@ public:
         return os;
     }
 
-    // Перегрузка оператора ввода
+  
     friend std::istream& operator>>(std::istream& is, List<T>& list) {
         T value;
         while (is >> value) {
             list.insert(value, nullptr);
         }
         return is;
+    }
+
+    
+    class Iterator {
+    public:
+        Node* current;
+
+        Iterator(Node* node) : current(node) {}
+
+        T& operator*() const {
+            return current->data;
+        }
+
+        Iterator& operator++() {
+            current = current->next;
+            return *this;
+        }
+
+        bool operator!=(const Iterator& other) const {
+            return current != other.current;
+        }
+    };
+
+    Iterator begin() const {
+        return Iterator(head);
+    }
+
+    Iterator end() const {
+        return Iterator(nullptr);
+    }
+
+    void insert(const T& value, Iterator position) {
+        if (position.current == nullptr) {
+            Node* newNode = new Node(value);
+            newNode->next = head;
+            head = newNode;
+        }
+        else {
+            Node* newNode = new Node(value);
+            newNode->next = position.current->next;
+            position.current->next = newNode;
+        }
+    }
+
+    void erase(Iterator position) {
+        if (head == nullptr || position.current == nullptr) {
+            return;
+        }
+
+        if (position.current == head) {
+            head = head->next;
+            delete position.current;
+        }
+        else {
+            Node* temp = head;
+            while (temp->next != position.current) {
+                temp = temp->next;
+            }
+
+            temp->next = position.current->next;
+            delete position.current;
+        }
     }
 };
