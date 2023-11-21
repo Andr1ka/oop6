@@ -1,5 +1,6 @@
 #include "List.h"
 #include <iostream>
+
 int main() {
     SetConsoleOutputCP(1251);
     List<int> myList;
