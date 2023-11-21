@@ -103,5 +103,21 @@ protected:
 
 public:
 
+    friend std::ostream& operator<<(std::ostream& os, const List<T>& list) {
+        Node* temp = list.head;
+        while (temp != nullptr) {
+            os << temp->data << " ";
+            temp = temp->next;
+        }
+        return os;
+    }
 
+    // Перегрузка оператора ввода
+    friend std::istream& operator>>(std::istream& is, List<T>& list) {
+        T value;
+        while (is >> value) {
+            list.insert(value, nullptr);
+        }
+        return is;
+    }
 };
