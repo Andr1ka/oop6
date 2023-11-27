@@ -93,6 +93,7 @@ public:
             mainListtemp = mainListtemp->next;
             temp = temp->next;
         }
+
         temp = head;
         if (head->next != nullptr) {
             mainListtemp = head->next;
@@ -111,9 +112,7 @@ public:
             }
 
         }
-        else {
-
-        }
+       
 
 
     }
@@ -132,7 +131,7 @@ public:
     friend std::istream& operator>>(std::istream& is, List<T>& list) {
         T value;
         while (is >> value) {
-            list.insert(value, nullptr);
+            list.insert(value);
         }
         return is;
     }
@@ -166,36 +165,36 @@ public:
         return Iterator(nullptr);
     }
 
-    void insert(const T& value, Iterator position) {
-        if (position.current == nullptr) {
+    void insert(const T& value, Iterator iter) {
+        if (iter.current == nullptr) {
             Node* newNode = new Node(value);
             newNode->next = head;
             head = newNode;
         }
         else {
             Node* newNode = new Node(value);
-            newNode->next = position.current->next;
-            position.current->next = newNode;
+            newNode->next = iter.current->next;
+            iter.current->next = newNode;
         }
     }
 
-    void erase(Iterator position) {
-        if (head == nullptr || position.current == nullptr) {
+    void erase(Iterator iter) {
+        if (head == nullptr || iter.current == nullptr) {
             return;
         }
 
-        if (position.current == head) {
+        if (iter.current == head) {
             head = head->next;
-            delete position.current;
+            delete iter.current;
         }
         else {
             Node* temp = head;
-            while (temp->next != position.current) {
+            while (temp->next != iter.current) {
                 temp = temp->next;
             }
 
-            temp->next = position.current->next;
-            delete position.current;
+            temp->next = iter.current->next;
+            delete iter.current;
         }
     }
 };
