@@ -15,20 +15,23 @@ private:
 
     Node* head;
 
-public:
-    List() : head(nullptr) {}
-
-    ~List() {
+    void clear() {
         while (head != nullptr) {
             Node* temp = head;
             head = head->next;
             delete temp;
         }
     }
+public:
+    List() : head(nullptr) {}
 
+    ~List() {
+        clear();
+    }
 
-    void insert(const T& value, Node* position = nullptr) {
-        if (position == nullptr) {
+    
+    void insert(const T& value) {
+       
             if (head == nullptr) {
                 Node* newNode = new Node(value);
                 newNode->next = head;
@@ -42,16 +45,6 @@ public:
                 }
                 temp->next = newNode;
             }
-
-        }
-        else {
-            Node* newNode = new Node(value);
-            Node* temp = head;
-            while (temp->next != nullptr) {
-                temp = temp->next;
-            }
-            temp->next = newNode;
-        }
     }
 
     
