@@ -45,8 +45,8 @@ int main() {
     
     List<int> sortedList;
     sortedList.insert(1);
+    sortedList.insert(2);
     sortedList.insert(3);
-    sortedList.insert(5);
 
     
     myList.mergeSorted(sortedList);

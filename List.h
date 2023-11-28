@@ -64,6 +64,7 @@ public:
 
     
     void mergeSorted(const List& other) {
+
         this->merge(other);
 
         Node* temp = other.head;
@@ -88,22 +89,21 @@ public:
     }
 
     
-    friend std::ostream& operator<<(std::ostream& os, const List<T>& list) {
+    friend std::ostream& operator<<(std::ostream& out, const List<T>& list) {
         Node* temp = list.head;
         while (temp != nullptr) {
-            os << temp->data << " ";
+            out << temp->data << " ";
             temp = temp->next;
         }
-        return os;
+        return out;
     }
-
   
-    friend std::istream& operator>>(std::istream& is, List<T>& list) {
+    friend std::istream& operator>>(std::istream& in, List<T>& list) {
         T value;
-        while (is >> value) {
+        while (in >> value) {
             list.insert(value);
         }
-        return is;
+        return in;
     }
 
     
