@@ -30,10 +30,6 @@ public:
         head = nullptr;
     }
 
-    ~List() {
-        clear();
-    }
-
     
     void insert(const T& value) {
        
@@ -52,26 +48,6 @@ public:
             }
     }
 
-    
-    void erase(Node* position) {
-        if (head == nullptr || position == nullptr) {
-            return;
-        }
-
-        if (position == head) {
-            head = head->next;
-            delete position;
-        }
-        else {
-            Node* temp = head;
-            while (temp->next != position) {
-                temp = temp->next;
-            }
-
-            temp->next = position->next;
-            delete position;
-        }
-    }
 
     void merge(const List& other) {
         Node* temp = other.head;
@@ -88,17 +64,10 @@ public:
 
     
     void mergeSorted(const List& other) {
+        this->merge(other);
+
         Node* temp = other.head;
         Node* mainListtemp = head;
-        while (mainListtemp->next != nullptr) {
-            mainListtemp = mainListtemp->next;
-        }
-        while (temp != nullptr) {
-            mainListtemp->next = new Node(temp->data);
-            mainListtemp = mainListtemp->next;
-            temp = temp->next;
-        }
-
         temp = head;
         if (head->next != nullptr) {
             mainListtemp = head->next;
@@ -115,11 +84,7 @@ public:
                 temp = temp->next;
                 mainListtemp = temp;
             }
-
         }
-       
-
-
     }
 
     
@@ -203,4 +168,11 @@ public:
             delete iter.current;
         }
     }
+
+
+    ~List() {
+        clear();
+    }
+
+
 };
