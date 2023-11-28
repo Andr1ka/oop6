@@ -7,7 +7,7 @@ int main() {
     List<int> myList;
 
     
-    std::cout << "Введите элементы списка (окончание ввода - любой не числовой символ): ";
+    std::cout << "Введите элементы списка: ";
     std::cin >> myList;
 
     std::cout << "Список: " << myList << std::endl;
@@ -32,9 +32,9 @@ int main() {
 
    
     List<int> otherList;
-    otherList.insert(500);
-    otherList.insert(600);
-    otherList.insert(700);
+    otherList.insert(100);
+    otherList.insert(101);
+    otherList.insert(503);
 
     std::cout << "Список 2: " << otherList << std::endl;
 
