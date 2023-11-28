@@ -88,25 +88,7 @@ public:
         }
     }
 
-    
-    friend std::ostream& operator<<(std::ostream& out, const List<T>& list) {
-        Node* temp = list.head;
-        while (temp != nullptr) {
-            out << temp->data << " ";
-            temp = temp->next;
-        }
-        return out;
-    }
   
-    friend std::istream& operator>>(std::istream& in, List<T>& list) {
-        T value;
-        while (in >> value) {
-            list.insert(value);
-        }
-        return in;
-    }
-
-    
     class Iterator {
     public:
         Node* current;
@@ -114,8 +96,9 @@ public:
         Iterator(Node* node) : current(node) {}
 
         T& operator*() const {
-            if(current != nullptr)
-            return current->data;
+            if (current != nullptr) 
+                return current->data;
+           
         }
 
         Iterator& operator++() {
@@ -167,6 +150,24 @@ public:
             temp->next = iter.current->next;
             delete iter.current;
         }
+    }
+
+
+    friend std::ostream& operator<<(std::ostream& out, const List<T>& list) {
+        Node* temp = list.head;
+        while (temp != nullptr) {
+            out << temp->data << " ";
+            temp = temp->next;
+        }
+        return out;
+    }
+
+    friend std::istream& operator>>(std::istream& in, List<T>& list) {
+        T value;
+        while (in >> value) {
+            list.insert(value);
+        }
+        return in;
     }
 
 
