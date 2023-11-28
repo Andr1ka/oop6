@@ -10,7 +10,7 @@ int main() {
     std::cout << "¬ведите элементы списка: ";
     std::cin >> myList;
 
-    std::cout << "—писок: " << myList << std::endl;
+   
 
    
     std::cout << "Ёлементы списка с использованием итератора: ";

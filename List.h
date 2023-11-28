@@ -26,7 +26,9 @@ private:
         }
     }
 public:
-    List() : head(nullptr) {}
+    List() {
+        head = nullptr;
+    }
 
     ~List() {
         clear();
@@ -147,6 +149,7 @@ public:
         Iterator(Node* node) : current(node) {}
 
         T& operator*() const {
+            if(current != nullptr)
             return current->data;
         }
 
