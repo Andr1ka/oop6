@@ -4,54 +4,22 @@
 
 int main() {
     SetConsoleOutputCP(1251);
-    List<int> myList;
-
-    
-    std::cout << "Введите элементы списка: ";
-    std::cin >> myList;
-
-   
-
-   
-    std::cout << "Элементы списка с использованием итератора: ";
-    for (auto it = myList.begin(); it != myList.end(); ++it) {
-        std::cout << *it << " ";
-    }
+    List <int> ls;
+    ls.insert(1);
+    ls.insert(2);
+    ls.insert(3);
+    List <int> ls2(ls);
+    std::cout << ls2;
     std::cout << std::endl;
 
-    
-    auto it = myList.begin();
-    ++it; 
-    myList.insert(100, it);
-    std::cout << "Список после добавления элемента: " << myList << std::endl;
-
-  
-    ++it;  
-    myList.erase(it);
-    std::cout << "Список после удаления элемента: " << myList << std::endl;
-
-   
-    List<int> otherList;
-    otherList.insert(100);
-    otherList.insert(101);
-    otherList.insert(503);
-
-    std::cout << "Список 2: " << otherList << std::endl;
-
-    
-    myList.merge(otherList);
-    std::cout << "Список после слияния с другим списком: " << myList << std::endl;
-
-    
-    List<int> sortedList;
-    sortedList.insert(1);
-    sortedList.insert(2);
-    sortedList.insert(3);
-
-    
-    myList.mergeSorted(sortedList);
-    std::cout << "Список после слияния с упорядоченным списком: " << myList << std::endl;
-
+    List <int> ls3;
+    ls3.insert(1);
+    ls3.insert(2);
+    ls3.insert(3);
+    List <int> ls4;
+    ls4.insert(1231);
+    ls4 = ls3;
+    std::cout << ls3;
     return 0;
 	
 }

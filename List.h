@@ -30,7 +30,25 @@ public:
         head = nullptr;
     }
 
-    
+    List(const List& other) {
+        Node* temp = other.head;
+        while (temp != nullptr) {
+            this->insert(temp->data);
+            temp = temp->next;
+        }
+    }
+
+    List& operator=(const List& other) {
+        clear();
+
+        Node* temp = other.head;
+        while (temp != nullptr) {
+            this->insert(temp->data);
+            temp = temp->next;
+        }
+        return *this;
+    }
+
     void insert(const T& value) {
        
             if (head == nullptr) {
@@ -47,7 +65,7 @@ public:
                 temp->next = newNode;
             }
     }
-
+    
 
     void merge(const List& other) {
         Node* temp = other.head;
@@ -95,14 +113,22 @@ public:
 
         Iterator(Node* node) : current(node) {}
 
-        T& operator*() const {
+        T operator*() const {
             if (current != nullptr) 
+            {
                 return current->data;
+            }
+            else {
+                return T();
+            }
            
         }
 
         Iterator& operator++() {
-            current = current->next;
+            if(current )
+            {
+                current = current->next;
+            }
             return *this;
         }
 
